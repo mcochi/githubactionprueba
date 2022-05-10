@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup as BS
 from datetime import date, timedelta
 import pandas as pd
 from codaio import Coda, Document
+import os
 
 
 page_hints = str(2000)
@@ -13,7 +14,7 @@ start_date = date(2020, 1, 1).strftime("%Y-%m-%d")
 end_date = date.today().strftime("%Y-%m-%d")
 docid = "4spIJTjQaK"
 tabid = "grid-CC_O8T0w9s"
-API__KEY = "3bba5e87-358c-498c-9e19-01ee158fddd0"
+API__KEY = os.getenv('CODA__API__KEY')
 columncodigos = "c-Geo9KSWqb7"
 tabavisosid = "grid-MSXLvpfizV"
 collinea_codigo = "c-nmvVaHHenQ"
