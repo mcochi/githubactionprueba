@@ -151,7 +151,7 @@ if __name__ == '__main__' :
       titulo = i.p.text.replace("'", '')
       busqueda = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['href']
       referencia = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") + CODIGO
-      link = "https://www.boe.es/diario_boe/txt.php?id=" + referencia
+      link = "https://www.boe.es/diario_boe/txt.php?id=" + i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") 
       avisos.append([linea_codigo, organo, titulo, busqueda, referencia, link])
 
   df = pd.DataFrame(avisos, columns = ['linea_codigo', 'organo', 'titulo', 'busqueda', 'referencia', 'link'])
