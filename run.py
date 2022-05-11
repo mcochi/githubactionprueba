@@ -150,7 +150,7 @@ if __name__ == '__main__' :
       organo = i.h3.text
       titulo = i.p.text.replace("'", '')
       busqueda = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['href']
-      referencia = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","")
+      referencia = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") + CODIGO
       link = "https://www.boe.es/diario_boe/txt.php?id=" + referencia
       avisos.append([linea_codigo, organo, titulo, busqueda, referencia, link])
 
