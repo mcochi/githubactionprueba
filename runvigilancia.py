@@ -146,11 +146,11 @@ if __name__ == '__main__' :
     elem = soup.findAll('li', class_ = "resultado-busqueda")
     #print(elem)
     for i in elem:
-      linea_codigo = CODIGO
+      linea_codigo = CODIGO.replace('"','')
       organo = i.h3.text
       titulo = i.p.text.replace("'", '')
       busqueda = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['href']
-      referencia = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") + CODIGO
+      referencia = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") + CODIGO.replace('"','')
       link = "https://www.boe.es/diario_boe/txt.php?id=" + i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") 
       avisos.append([linea_codigo, organo, titulo, busqueda, referencia, link])
 
