@@ -1,7 +1,7 @@
 name: vigilancia_plan_transformacion
 on: 
   schedule:
-    - cron: "15 4 * * *"
+    - cron: "45 6 * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
