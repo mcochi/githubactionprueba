@@ -115,7 +115,7 @@ if  __name__  ==  '__main__'  :
 Los pasos que sigue son:
 
 1 - Extracción de los códigos de Órdenes de Bases o Reales Decretos identificados en las líneas etiquetadas en la tabla BBDD PERTE. Todo ello viene encapsulado en la función get_codigos()
-```
+```python
  CODIGOS = get_codigos()
 
   print(CODIGOS)
@@ -125,7 +125,7 @@ Los pasos que sigue son:
   
 
 2- A continuación, se recorren todos los códigos devueltos por la anterior función y se simula una consulta al búscador de BOE mediante la función boe_form_buscar, que devuelve la respuesta del formulario. Esa respuesta - que está en formato html, se parsea para encontrar los elementos resultados de la búsqueda mediante bs4.
-```
+```python
   for CODIGO in CODIGOS:
 
  data = boe_form_buscar(CODIGO, page_hints, start_date, end_date)
@@ -137,7 +137,7 @@ Los pasos que sigue son:
  elem = soup.findAll('li', class_ =  "resultado-busqueda")
 ```
 3 - Después se recorre cada uno de los resultados encontrados, para extraer la información relevante: identificador en BOE, link, órgano... y se añade a una lista.
-```
+```python
   for i in elem:
 
  linea_codigo = CODIGO.replace('"','')
@@ -157,7 +157,7 @@ Los pasos que sigue son:
 ```  
 
 4 . Finalmente, la lista se transforma en una tabla (DataFrame de pandas) y mediante el wrapper de coda se sube al presente documento a la tabla Avisos.
-```
+```python
 
  df = pd.DataFrame(avisos, columns =  ['linea_codigo',  'organo',  'titulo',  'busqueda',  'referencia',  'link'])
 
@@ -174,7 +174,7 @@ El archivo vigilancia_perte.yml despliega el job de ejecución de la lógica del
 La ejecución está montada sobre la cuenta personal de github de Marcos Cochi, en su repositorio público githubactionsprueba.
 
 El contenido del archivo es el siguiente y su ubicación para el desliegue es .github/workflows:
-```
+```python
 name: vigilancia_perte
 
 on:  
@@ -223,7 +223,7 @@ jobs:
 
 A continuación, se explica paso a paso cada una de las configuraciones:
 1- Configuración del scheduler: En nuestro caso, el job se ejecutará cada día a las 6 y media de la mañana - 8:30 hora España
-```
+```python
 on:  
 
  schedule:
@@ -232,7 +232,7 @@ on:
 ```
 
 2- Se configura el job para ejecutarse en un contenedor con imagen ubuntu-latest. Se chequea su estado y se instala python 3.7
-```
+```python
 jobs:  
 
  build:
@@ -256,7 +256,7 @@ jobs:
   ```
 
 3- Se instala los paquetes de dependencia, se incorporan al entorno los secretos (API_KEY de Coda) y finalmente hace correr [run.py](http://run.py)
-```
+```python
  run:  |
 
  python -m pip install --upgrade pip
@@ -282,7 +282,7 @@ Para mayor detalle, ver Anexo II. vigilancia_perte.yml
   
 
 # Anexo I. run.py
-```
+```python
 import ssl
 
 import requests
@@ -600,7 +600,7 @@ if __name__ == '__main__' :
   ```
 
 # Anexo II. vigilancia_perte.yml
-```
+```python
 name: vigilancia_perte
 
 on: 
