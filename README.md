@@ -69,7 +69,7 @@ Además, cuando llega un nuevo registro a avisos, se notifica a través de mail 
 El fichero run.pycontiene toda la lógica principal y funciones auxiliares de la automatización.
 
 Su main es el siguiente:
-```
+```python
 if  __name__  ==  '__main__'  :
 
  CODIGOS = get_codigos()
