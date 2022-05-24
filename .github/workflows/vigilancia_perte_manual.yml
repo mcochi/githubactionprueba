@@ -1,4 +1,4 @@
-name: vigilancia_perte
+name: vigilancia_perte_manual
 on: 
   workflow_dispatch:
     inputs:
