@@ -7,6 +7,7 @@ from datetime import date, timedelta
 import pandas as pd
 from codaio import Coda, Document
 import os
+import urllib.parse
 
 
 page_hints = str(2000)
@@ -78,7 +79,7 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&campo%5B2%5D=DEM"
         "&dato%5B2%5D=&operador%5B2%5D=and"
         "&campo%5B3%5D=DOC"
-        "&dato%5B3%5D="+ CODIGO.replace("/", "%2F") +
+        "&dato%5B3%5D="+ urllib.parse.quote(CODIGO.replace('“','"').replace('”','"').replace('\n',' ')) +
         "&operador%5B3%5D=and"
         "&campo%5B4%5D=NBO"
         "&dato%5B4%5D=&operador%5B4%5D=and"
@@ -86,9 +87,9 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&dato%5B5%5D=&operador%5B5%5D=and"
         "&operador%5B6%5D=and"
         "&campo%5B6%5D=FPU"
-        "&dato%5B6%5D%5B0%5D=" + start_date + 
-        "&dato%5B6%5D%5B1%5D=" + end_date +
-        "&page_hits=" + page_hints +
+        "&dato%5B6%5D%5B0%5D=" +urllib.parse.quote(start_date) + 
+        "&dato%5B6%5D%5B1%5D=" + urllib.parse.quote(end_date) +
+        "&page_hits=" + urllib.parse.quote(page_hints) +
         "&sort_field%5B0%5D=fpu"
         "&sort_order%5B0%5D=desc"
         "&sort_field%5B1%5D=ori"
