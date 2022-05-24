@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as BS
 from datetime import date, timedelta
 import pandas as pd
 from codaio import Coda, Document
-import os
+import urllib.parse
 
 
 page_hints = str(2000)
@@ -14,7 +14,7 @@ start_date = date(2020, 1, 1).strftime("%Y-%m-%d")
 end_date = date.today().strftime("%Y-%m-%d")
 docid = "4spIJTjQaK"
 tabid = "grid-CC_O8T0w9s"
-API__KEY = os.getenv('CODA__API__KEY')
+API__KEY = "3bba5e87-358c-498c-9e19-01ee158fddd0"
 columncodigos = "c-Geo9KSWqb7"
 tabavisosid = "grid-MSXLvpfizV"
 collinea_codigo = "c-nmvVaHHenQ"
@@ -63,7 +63,8 @@ def json_extract(obj, key):
 def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
   if hasattr(ssl, '_create_unverified_context'):
       ssl._create_default_https_context = ssl._create_unverified_context
-
+  print('€€€€€€€€€')
+  print(CODIGO)
   url = ("https://www.boe.es/buscar/boe.php?"
         "campo%5B0%5D=ORI"
         "&dato%5B0%5D%5B1%5D=1"
@@ -78,7 +79,8 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&campo%5B2%5D=DEM"
         "&dato%5B2%5D=&operador%5B2%5D=and"
         "&campo%5B3%5D=DOC"
-        "&dato%5B3%5D="+ CODIGO.replace("/", "%2F") +
+        "&dato%5B3%5D="+ urllib.parse.quote(CODIGO.replace('“','"').replace('”','"').replace('\n',' ')) + 
+        #"&dato%5B3%5D=Resoluci%C3%B3n+de+5+de+septiembre+de+2019+de+la+Secretaria+de+Estado+de+energ%C3%ADa"
         "&operador%5B3%5D=and"
         "&campo%5B4%5D=NBO"
         "&dato%5B4%5D=&operador%5B4%5D=and"
@@ -86,9 +88,12 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&dato%5B5%5D=&operador%5B5%5D=and"
         "&operador%5B6%5D=and"
         "&campo%5B6%5D=FPU"
-        "&dato%5B6%5D%5B0%5D=" + start_date + 
-        "&dato%5B6%5D%5B1%5D=" + end_date +
-        "&page_hits=" + page_hints +
+        #"&dato%5B6%5D%5B0%5D=" + start_date + 
+        "&dato%5B6%5D%5B0%5D="
+        #"&dato%5B6%5D%5B1%5D=" + end_date +
+        "&dato%5B6%5D%5B1%5D="
+        #"&page_hits=" + page_hints +
+        "&page_hits="
         "&sort_field%5B0%5D=fpu"
         "&sort_order%5B0%5D=desc"
         "&sort_field%5B1%5D=ori"
@@ -96,6 +101,7 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&sort_field%5B2%5D=ref"
         "&sort_order%5B2%5D=asc"
         "&accion=Buscar")
+  print(url)
   return requests.get(url = url).text
 
 def pandas_to_coda(df):
