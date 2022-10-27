@@ -149,7 +149,7 @@ if __name__ == '__main__' :
     for i in elem:
       linea_codigo = CODIGO.replace('"','')
       organo = i.h3.text
-      titulo = i.p.text.replace("'", '')
+      titulo = i.p.text.replace("'", '').replace("\xa0"," ")
       busqueda = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['href']
       referencia = i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") + CODIGO.replace('"','')
       link = "https://www.boe.es/diario_boe/txt.php?id=" + i.find("a", attrs = {"class": "resultado-busqueda-link-defecto"})['title'].replace("Ref. ","") 
