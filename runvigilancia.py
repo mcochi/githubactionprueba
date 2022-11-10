@@ -97,7 +97,7 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&sort_field%5B2%5D=ref"
         "&sort_order%5B2%5D=asc"
         "&accion=Buscar")
-  return requests.get(url = url).text
+  return requests.get(url = url, verify = False).text
 
 def pandas_to_coda(df):
     payload_list = []
