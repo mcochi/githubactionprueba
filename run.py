@@ -8,6 +8,7 @@ import pandas as pd
 from codaio import Coda, Document
 import urllib.parse
 import os
+import urllib3
 
 
 page_hints = str(2000)
@@ -25,6 +26,19 @@ colbusqueda = "c-oxPjJAPb-y"
 colreferencia = "c-LjsYMA9diH"
 collink = "c-Rk82guuvAI"
 # prueba
+
+class TLSAdapter(requests.adapters.HTTPAdapter):
+    def init_poolmanager(self, connections, maxsize, block=False):
+        """Create and initialize the urllib3 PoolManager."""
+        ctx = ssl.create_default_context()
+        ctx.set_ciphers('DEFAULT@SECLEVEL=1')
+        self.poolmanager = poolmanager.PoolManager(
+                num_pools=connections,
+                maxsize=maxsize,
+                block=block,
+                ssl_version=ssl.PROTOCOL_TLS,
+                ssl_context=ctx)
+
 def get_codigos():
     if hasattr(ssl, '_create_unverified_context'):
     		ssl._create_default_https_context = ssl._create_unverified_context
@@ -62,8 +76,8 @@ def json_extract(obj, key):
 #CODIGO = 'ETD/1498/2021'
 
 def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
-  if hasattr(ssl, '_create_unverified_context'):
-      ssl._create_default_https_context = ssl._create_unverified_context
+  #if hasattr(ssl, '_create_unverified_context'):
+  #    ssl._create_default_https_context = ssl._create_unverified_context
   print('€€€€€€€€€')
   print(CODIGO)
   url = ("https://www.boe.es/buscar/boe.php?"
@@ -103,7 +117,10 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&sort_order%5B2%5D=asc"
         "&accion=Buscar")
   print(url)
-  return requests.get(url = url, verify=False).text
+  session = requests.session()
+  session.mount('https://', TLSAdapter())
+  res = session.get(url)
+  return res.text
 
 def pandas_to_coda(df):
     payload_list = []
