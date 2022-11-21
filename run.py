@@ -8,7 +8,7 @@ import pandas as pd
 from codaio import Coda, Document
 import urllib.parse
 import os
-import urllib3
+from urllib3 import poolmanager
 
 
 page_hints = str(2000)
