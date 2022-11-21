@@ -8,7 +8,7 @@ import pandas as pd
 from codaio import Coda, Document
 import os
 import urllib.parse
-
+from urllib3 import poolmanager
 
 page_hints = str(2000)
 start_date = date(2020, 1, 1).strftime("%Y-%m-%d")
@@ -24,6 +24,19 @@ coltitulo = "c-tCdI5uHaab"
 colbusqueda = "c-oxPjJAPb-y"
 colreferencia = "c-LjsYMA9diH"
 collink = "c-Rk82guuvAI"
+
+class TLSAdapter(requests.adapters.HTTPAdapter):
+    def init_poolmanager(self, connections, maxsize, block=False):
+        """Create and initialize the urllib3 PoolManager."""
+        ctx = ssl.create_default_context()
+        ctx.set_ciphers('DEFAULT@SECLEVEL=1')
+        ctx.options |= 0x4  # OP_LEGACY_SERVER_CONNECT
+        self.poolmanager = poolmanager.PoolManager(
+                num_pools=connections,
+                maxsize=maxsize,
+                block=block,
+                ssl_version=ssl.PROTOCOL_TLS,
+                ssl_context=ctx)
 
 def get_codigos():
     if hasattr(ssl, '_create_unverified_context'):
@@ -97,8 +110,12 @@ def boe_form_buscar(CODIGO, page_hints, start_date, end_date):
         "&sort_field%5B2%5D=ref"
         "&sort_order%5B2%5D=asc"
         "&accion=Buscar")
-  return requests.get(url = url, verify = False).text
-
+  print(url)
+  session = requests.session()
+  session.mount('https://', TLSAdapter())
+  res = session.get(url)
+  return res.text
+  
 def pandas_to_coda(df):
     payload_list = []
     for index, row in df.iterrows():
