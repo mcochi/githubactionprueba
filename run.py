@@ -161,6 +161,7 @@ def upload_to_coda(payload) :
     coda.upsert_row(docid,tabavisosid,payload)
 
 if __name__ == '__main__' :
+  print(API__KEY)
   CODIGOS = get_codigos()
   print(CODIGOS)
   avisos = []
