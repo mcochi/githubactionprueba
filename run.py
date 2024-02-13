@@ -164,7 +164,7 @@ if __name__ == '__main__' :
   print(API__KEY)
   CODIGOS = get_codigos()
   print(CODIGOS)
-  print("####" + API__KEY)"
+  print("####" + API__KEY)
   avisos = []
   for CODIGO in CODIGOS:
     data = boe_form_buscar(CODIGO, page_hints, start_date, end_date)
